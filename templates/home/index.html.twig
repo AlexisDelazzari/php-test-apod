@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style>
+        .heart {
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        .heart:hover {
+            color: red;
+        }
+
+        .bi-heart-fill {
+            color: red;
+        }
+    </style>
+
+    {% if not is_granted("ROLE_USER") %}
+        <div class="content-page">
+            <div class="welcome text-center">
+                <h1>Bienvenue sur l'application Space</h1>
+                <p>Connectez-vous pour voir les images de la NASA</p>
+                <a href="{{ path('connect_google_start') }}" >
+                    <button type="button" class="btn btn-success">Se connecter</button>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted("ROLE_USER") %}
+        <div class="content-page">
+            {% if message %}
+                <div class="alert alert-warning" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            {% if picture %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-12 shadow-sm">
+                            <img src="{{ picture.url }}" class="card-img-top" alt="{{ picture.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ picture.title }}</h5>
+                                <p class="card-text">{{ picture.explanation }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a
+                                            href="{{ path('app_picture_like', {'id': picture.id}) }}"
+                                            class="heart {{ liked ? 'clicked' : '' }}"
+                                    >
+                                            <i class="bi {{ liked ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                                    </a>
+                                    <small class="text-muted">{{ picture.date|date('d/m/Y') }}</small>
+                                    <small class="text-muted">Nombre de like(s) : {{ nbLikes }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
