@@ -49,8 +49,8 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'picture' => $picture,
             'message' => $message_error ?? null,
-            'liked' => $this->PictureService->isLiked($picture, $this->getUser()),
-            'nbLikes' => $this->PictureService->getNbLikes($picture),
+            'liked' => $picture ? $this->PictureService->isLiked($picture, $this->getUser()) : 0,
+            'nbLikes' => $picture ? $this->PictureService->getNbLikes($picture) : 0,
         ]);
     }
 
