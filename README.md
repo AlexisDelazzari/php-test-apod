@@ -1,3 +1,76 @@
+# Space App
+
+L'Application Space est un projet conçu pour démontrer mes compétences techniques en PHP avec le framework Symfony. Son objectif est de permettre aux utilisateurs de se connecter à l'application en utilisant leur compte Google, afin de visualiser l'image du jour fournie par l'API de la NASA.
+
+## Technologies utilisées
+
+- **Langage de programmation :**
+    - PHP 8.1
+
+- **Framework :**
+    - Symfony 6.1
+
+- **Serveur :**
+    - WampServer
+
+- **Gestionnaire de dépendances :**
+    - Composer (fourni par Mr Pétré lors des cours à l'Université de Lorraine)
+
+- **Bibliothèques et bundles :**
+    - **Twig :** Moteur de template utilisé avec Symfony pour générer des vues HTML plus facilement et de manière plus propre.
+    - **Bootstrap :** Framework CSS utilisé pour le design et la mise en page des pages web de l'application.
+    - **KnpUniversity OAuth2 Client Bundle :** Bundle Symfony permettant l'authentification OAuth2, utilisé pour la connexion avec Google.
+    - **League OAuth2 Google :** Bibliothèque PHP pour l'authentification OAuth2 avec Google, utilisée en conjonction avec KnpUniversity OAuth2 Client Bundle.
+
+## Utilisation
+
+Pour utiliser le projet, vous avez deux options :
+
+### 1. Utilisation en local via le dépôt Git
+
+1. Clonez le dépôt Git sur votre machine :
+   ```bash
+   git clone https://github.com/AlexisDelazzari/php-test-apod.git
+   ```
+
+2. Copiez le fichier `.env` et renommez-le en `.env.local`.
+   Adaptez les paramètres de connexion à votre base de données si nécessaire en vous basant sur le fichier `.env`.
+
+3. Utilisez la commande suivante pour faire la requête API et remplir la base de données avec l'image du jour :
+   ```bash
+   php bin/console app:fetch-nasa-picture
+   ```
+   Cette commande remplit la base de données avec l'image du jour si aucune requête n'a été faite aujourd'hui.
+
+### 2. Utilisation du site en ligne
+
+Vous pouvez également utiliser le projet en ligne en le consultant sur le lien suivant :
+[https://alexisdelazzari.fr/test-adimeo/home](https://alexisdelazzari.fr/test-adimeo/home)
+
+### Remarques
+
+- **Problèmes avec le bundle Google :**
+  Si vous rencontrez des problèmes avec le bundle Google, assurez-vous de configurer les redirections sur la console de développement Google, par exemple : `PATH-APP/php-test-apod/public/auth/google/check`.
+
+- **Problèmes avec SSL :**
+  Si vous rencontrez des problèmes avec SSL, voici une solution possible : [https://gist.github.com/nhatnx/7ac83423f7d4e51b713f4dfde03f38c5](https://gist.github.com/nhatnx/7ac83423f7d4e51b713f4dfde03f38c5)
+
+- **Utilisation de l'ORM :**
+  J'ai ajouté une fonctionnalité (possibilité de like les posts) mettant en valeur mes compétences avec un ORM. Bien que Symfony utilise Doctrine par défaut, j'ai utilisé mes compétences en ORM similaires à celles que j'utilise dans mon travail actuel avec TypeORM (Node.js).
+
+### Remarque sur l'absence d'Ajax
+
+Dans ce projet, je n'ai pas utilisé Ajax, donc chaque interaction sur le site recharge la page. Cela n'est pas optimal, mais le projet a été conçu pour tester mes compétences techniques en PHP avec Symfony.
+
+## Petit plus
+
+Afin de voir mes compétences sur un projet un peu plus conséquent, je vous invite à découvrir un projet que j'ai réalisé lors de ma formation à l'IUT de Metz, dans le cadre des cours dispensés par M. Pétré.
+
+- **Repository Git :** [https://github.com/AlexisDelazzari/evalPHP.git](https://github.com/AlexisDelazzari/evalPHP.git)
+
+- **Tester le projet :** [https://alexisdelazzari.fr/evalphp/home](https://alexisdelazzari.fr/evalphp/home)
+
+
 # PHP Technical Test
 
 ## Instructions
