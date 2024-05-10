@@ -15,24 +15,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class PictureService
 {
     private HttpClientInterface $client;
-    private PictureRepository $PictureRepository;
+    private PictureRepository $pictureRepository;
 
     public function __construct(
         HttpClientInterface $client,
-        PictureRepository $PictureRepository
+        PictureRepository $pictureRepository
     ) {
         $this->client = $client;
-        $this->PictureRepository = $PictureRepository;
+        $this->pictureRepository = $pictureRepository;
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws Exception
-     */
     public function getPictureOfTheDay(): array
     {
         try {
@@ -43,9 +35,6 @@ class PictureService
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function savePicture(array $pictureData): void
     {
         $picture = new Picture();
@@ -55,15 +44,15 @@ class PictureService
         $picture->setExplanation($pictureData['explanation']);
         $picture->setMediaType($pictureData['media_type']);
 
-        $this->PictureRepository->save($picture);
+        $this->pictureRepository->save($picture);
     }
 
-    public function getPictureByDate(\DateTime $date): Picture | null
+    public function getPictureByDate(\DateTime $date): ?Picture
     {
-        $picture = $this->PictureRepository->findOneBy(['date' => $date, 'media_type' => 'image']);
+        $picture = $this->pictureRepository->findOneBy(['date' => $date, 'media_type' => 'image']);
 
         if (!$picture) {
-            $picture = $this->PictureRepository->findPreviousImage($date);
+            $picture = $this->pictureRepository->findPreviousImage($date);
         }
 
         return $picture;

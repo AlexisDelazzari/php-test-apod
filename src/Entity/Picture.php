@@ -39,7 +39,6 @@ class Picture
         $this->likes = new ArrayCollection();
     }
 
-
     public function getLikes(): Collection
     {
         return $this->likes;
@@ -66,7 +65,6 @@ class Picture
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -78,7 +76,6 @@ class Picture
     public function setExplanation(string $explanation): static
     {
         $this->explanation = $explanation;
-
         return $this;
     }
 
@@ -90,7 +87,6 @@ class Picture
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -102,7 +98,6 @@ class Picture
     public function setUrl(string $url): static
     {
         $this->url = $url;
-
         return $this;
     }
 
@@ -114,7 +109,6 @@ class Picture
     public function setMediaType(string $media_type): static
     {
         $this->media_type = $media_type;
-
         return $this;
     }
 }

@@ -20,29 +20,27 @@ class User implements UserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(length: 255)]
     private ?string $fullname = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $googleId = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PictureLiked::class)]
     private $likes;
 
-    //constructor
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
         $this->likes = new ArrayCollection();
     }
 
-    //getters and setters
     public function getLikes(): Collection
     {
         return $this->likes;
@@ -73,19 +71,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -102,9 +92,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -140,7 +127,7 @@ class User implements UserInterface
         return $this->googleId;
     }
 
-    public function setGoogleId(string $googleId): static
+    public function setGoogleId(?string $googleId): static
     {
         $this->googleId = $googleId;
 

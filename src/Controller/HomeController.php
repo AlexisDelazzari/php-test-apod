@@ -10,48 +10,47 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    private PictureService $PictureService;
-    private PictureRepository $PictureRepository;
+    private PictureService $pictureService;
+    private PictureRepository $pictureRepository;
 
-    public function __construct(PictureService $PictureService, PictureRepository $PictureRepository)
+    public function __construct(PictureService $pictureService, PictureRepository $pictureRepository)
     {
-        $this->PictureService = $PictureService;
-        $this->PictureRepository = $PictureRepository;
+        $this->pictureService = $pictureService;
+        $this->pictureRepository = $pictureRepository;
     }
 
     #[Route('/home', name: 'app_home')]
-    public function index(PictureService $PictureService, PictureRepository $PictureRepository): Response
+    public function index(): Response
     {
-        $type_message = $_GET['type_message'] ?? null;
+        $typeMessage = $_GET['type_message'] ?? null;
         $message = $_GET['message'] ?? null;
 
-        if ($type_message && $message) {
-            $this->addFlash($type_message, $message);
+        if ($typeMessage && $message) {
+            $this->addFlash($typeMessage, $message);
         }
 
         if (!$this->getUser()) {
             return $this->render('home/index.html.twig');
         }
 
-        $picture = $this->PictureRepository->findOneBy(['date' => new \DateTime()]);
+        $picture = $this->pictureRepository->findOneBy(['date' => new \DateTime()]);
 
         if (!$picture) {
-            $picture = $this->PictureService->getPictureByDate(new \DateTime());
-            $message_error = $picture ? null : 'Aucune photo trouvée. Veuillez réessayer plus tard.';
+            $picture = $this->pictureService->getPictureByDate(new \DateTime());
+            $messageError = $picture ? null : 'Aucune photo trouvée. Veuillez réessayer plus tard.';
         } elseif ($picture->getMediaType() === 'video') {
-            $picture = $this->PictureService->getPictureByDate(new \DateTime());
+            $picture = $this->pictureService->getPictureByDate(new \DateTime());
 
-            $message_error = $picture && $picture->getMediaType() === 'image' ?
+            $messageError = $picture && $picture->getMediaType() === 'image' ?
                 'Malheureusement, la photo du jour est une vidéo. Voici la dernière photo disponible.' :
                 'Malheureusement, la photo du jour est une vidéo. Nous ne pouvons pas l\'afficher.';
         }
 
         return $this->render('home/index.html.twig', [
             'picture' => $picture,
-            'message' => $message_error ?? null,
-            'liked' => $picture ? $this->PictureService->isLiked($picture, $this->getUser()) : 0,
-            'nbLikes' => $picture ? $this->PictureService->getNbLikes($picture) : 0,
+            'message' => $messageError ?? null,
+            'liked' => $picture ? $this->pictureService->isLiked($picture, $this->getUser()) : 0,
+            'nbLikes' => $picture ? $this->pictureService->getNbLikes($picture) : 0,
         ]);
     }
-
 }

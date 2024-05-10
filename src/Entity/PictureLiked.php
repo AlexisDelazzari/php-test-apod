@@ -13,11 +13,6 @@ class PictureLiked
     #[ORM\Column]
     private ?int $id = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     private User $user;
 
@@ -26,6 +21,11 @@ class PictureLiked
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $likedAt;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getUser(): User
     {

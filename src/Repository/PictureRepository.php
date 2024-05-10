@@ -5,16 +5,9 @@ namespace App\Repository;
 use App\Entity\Picture;
 use App\Entity\PictureLiked;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Picture>
- *
- * @method Picture|null find($id, $lockMode = null, $lockVersion = null)
- * @method Picture|null findOneBy(array $criteria, array $orderBy = null)
- * @method Picture[]    findAll()
- * @method Picture[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class PictureRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -28,7 +21,9 @@ class PictureRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    //chercher une image infereur a la date donnée
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findPreviousImage(\DateTime $date): ?Picture
     {
         return $this->createQueryBuilder('p')
@@ -39,7 +34,6 @@ class PictureRepository extends ServiceEntityRepository
             ->orderBy('p.date', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }
